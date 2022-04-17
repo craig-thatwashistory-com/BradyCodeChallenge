@@ -1,5 +1,5 @@
 # BradyCodeChallenge
-Submission for Brady Code Challenge
+Submission for Brady Code Challenge - Craig McClelland
 
 Brady Code Challenge Notes
 
