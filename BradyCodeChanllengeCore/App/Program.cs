@@ -1,6 +1,7 @@
 ﻿using BradyCodeChallengeCore.Exceptions;
 using BradyCodeChallengeCore.GeneratorData;
 using System.Xml.Linq;
+using System.Configuration;
 
 // TODO:
 //  logging at key points for info/errors/??
@@ -19,9 +20,9 @@ namespace BradyCodeChallengeCore.App
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Launching the Generator Tech Test");
+            Console.WriteLine("Launching the Generator Tech Test\n");
 
-            // default location for config & reference files
+            // default location for reference file
             var configDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Config";
 
             if (args.Length == 0)
@@ -29,19 +30,26 @@ namespace BradyCodeChallengeCore.App
                 string programName = Path.GetFileNameWithoutExtension(Environment.GetCommandLineArgs()[0]);
 
                 Console.WriteLine("No command line parameters supplied.");
-                Console.WriteLine($"Expected: '{programName} \"<config folder>\"'");
-                Console.WriteLine($"Default config file location will be assumed: '{configDirectory}'");
+                Console.WriteLine($"Expected: '{programName} \"<reference data folder>\"'");
+                Console.WriteLine($"Default reference file location will be assumed: '{configDirectory}'\n");
             }
             else
             {
                 configDirectory = args[0];
             }
 
-            //  load config file
-            string configFilepath = Path.Combine(configDirectory, configFileName);
-            XElement configDataXML = XElement.Load(configFilepath);
+            //  load config details
+            string inputFolder = ConfigurationManager.AppSettings["InputFolder"];
+            string outputFolder = ConfigurationManager.AppSettings["OutputFolder"];
+            string archiveFolder = ConfigurationManager.AppSettings["ArchiveFolder"];
 
-            configData = new ConfigData(configDataXML);
+            configData = new ConfigData(inputFolder, outputFolder, archiveFolder);
+
+            Console.WriteLine($"\nDrop input files to the folder: {inputFolder}");
+            Console.WriteLine($"Result files will be created in the folder: {outputFolder}");
+            Console.WriteLine($"After processing, input files will be archived to the folder: {archiveFolder}");
+            Console.WriteLine($"These folders must be created manually\n");
+
 
             string inputDirectory = configData.InputFolder;
 
@@ -63,7 +71,7 @@ namespace BradyCodeChallengeCore.App
             watcher.EnableRaisingEvents = true;
 
             // block/wait while events are processed
-            Console.WriteLine("'x'-<enter> to exit");
+            Console.WriteLine("Waiting for Input files ... type 'x'-<enter> to exit");
             string userInput = string.Empty;
             do
             {
@@ -120,7 +128,7 @@ namespace BradyCodeChallengeCore.App
 
             GeneratorDataSet dataSet = new GeneratorDataSet(inputGeneratorData, referenceData);
 
-            string reportFilePath = Path.Combine(configData.OutputFolder, Path.GetFileNameWithoutExtension(inputFilepath) + "_Report.xml");
+            string reportFilePath = Path.Combine(configData.OutputFolder, Path.GetFileNameWithoutExtension(inputFilepath) + "-Result.xml");
 
             generateOutputXMLReport(reportFilePath, ref dataSet);
         }

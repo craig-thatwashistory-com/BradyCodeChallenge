@@ -31,5 +31,11 @@ namespace BradyCodeChallengeCore.App
                 throw new ErrorInConfigXMLException("Error reading Config Data file");
             }
         }
+        public ConfigData(string inputFolderPath, string outputFolderpath, string archiveFolderPath)
+        {
+                inputFolder = inputFolderPath;
+                archiveFolder = archiveFolderPath;
+                outputFolder = outputFolderpath;
+        }
     }
 }

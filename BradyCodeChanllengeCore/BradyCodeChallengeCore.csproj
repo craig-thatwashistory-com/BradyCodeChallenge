@@ -14,9 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Config\ConfigData.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Config\ReferenceData.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
