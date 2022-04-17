@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ConfigData>
+    <Paths>
+	  <InputFolder>C:\BradyTechTest\Input</InputFolder>
+	  <OutputFolder>C:\BradyTechTest\Output</OutputFolder>
+	  <ArchiveFolder>C:\BradyTechTest\Archive</ArchiveFolder>
+    </Paths>    
+</ConfigData>
